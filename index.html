@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>Express HTML</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script>
+
+
+      if (window.Worker) {
+        var mySharedWorker = new SharedWorker('worker.js');
+        mySharedWorker.port.start();
+
+        function fibonacci(numMax) {
+          mySharedWorker.port.postMessage([numMax]);
+        }
+
+        mySharedWorker.port.onmessage = function (e) {
+          console.log("Message received from sharedWorker : " + e.data);
+        };
+        var myWorker = new Worker('worker.js');
+        myWorker.postMessage(["can", "ali"]);
+        myWorker.onmessage = function (e) {
+          console.log('Message received from worker : ', e.data);
+        };
+
+      }
+
+    </script>
+</head>
+<body>
+<div style="margin:100px;"
+     class="navbar navbar-inverse navbar-static-top">
+
+    </nav>
+    <div class="jumbotron" style="padding:40px;">
+        <p><a class="btn btn-primary btn-lg" onclick="fibonacci(10000000)" role="button">tap on me and open console and wait for result</a></p>
+    </div>
+</div>
+</body>
+</html>
